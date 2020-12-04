@@ -1,0 +1,1 @@
+echo echo "${cyan}"*========================= WILDY VPN ============================ZZZZZZZZZZZZZz"
