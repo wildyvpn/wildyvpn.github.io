@@ -1,12 +1,13 @@
 #!/bin/bash
 # Script Remake By WILDY VPN
 # Source = Horass & Kangarid & Mbak Google & Pak Google
-# ==================================================
+# ISS JADI SAYANG KU CIUM LU NANT LOHHH
+# ======================================================
 
 # Install Var Script / Host IP
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
-echo "Masukin Domain Mu Sayang"
+echo "Masukin Domain Mu Sayang - Script Recode By WILDYVPN"
 read -p "Hostname :" host
 echo "IP=$host" >> /root/ipvps.conf
 MYIP=$(dig @resolver1.opendns.com -t A -4 myip.opendns.com +short)
@@ -254,6 +255,8 @@ sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dr
 # download script dari server
 cd /usr/bin
 wget -O about "https://wildyvpn.my.id/script/about.sh"
+wget -O v2ray "https://wildyvpn.my.id/script/menu.sh"
+wget -O v2ray "https://wildyvpn.my.id/script/ss.sh"
 wget -O usernew "https://wildyvpn.my.id/script/usernew.sh"
 wget -O trial "https://wildyvpn.my.id/script/trial.sh"
 wget -O hapus "https://wildyvpn.my.id/script/hapus.sh"
@@ -268,6 +271,8 @@ wget -O renew "https://wildyvpn.my.id/script/renew.sh"
 wget -O v2ray "https://wildyvpn.my.id/script/v2ray.sh"
 
 echo "Sabar Masih Proses Ngeakses File File Penting" >> /etc/crontab
+chmod +x menu
+chmod +x ss
 chmod +x usernew
 chmod +x trial
 chmod +x hapus
@@ -300,9 +305,11 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000
 history -c
 echo "unset HISTFILE" >> /etc/profile
-
 cd
 rm -f /root/mulai.sh
+
+#Menginstall V2RAY
+v2ray
 
 #Akhirnya Kelar Juga Kan Sayang Ku !
 clear
@@ -334,7 +341,7 @@ echo "Fail2Ban         : [on]"  | tee -a log-install.txt
 echo "IPv6             : [on]"  | tee -a log-install.txt
 echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
 echo ">> Script Modified By WILDY VPN"  | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
+echo "*========================= SSH & OVPN ===========================" | tee -a log-install.txt
 echo  "* usernew       : Membuat Akun SSH & OpenVPN" | tee -a log-install.txt
 echo  "* trial         : Membuat Akun Trial SSH & OpenVPN" | tee -a log-install.txt
 echo  "* hapus         : Menghapus Akun SSH & OpenVPN" | tee -a log-install.txt
@@ -342,27 +349,38 @@ echo  "* renew         : Memperpanjang Masa Aktif Akun SSH & OpenVPN" | tee -a l
 echo  "* cek           : Cek User Login" | tee -a log-install.txt
 echo  "* member        : Daftar Member SSH & OpenVPN" | tee -a log-install.txt
 echo  "* delete        : Menghapus Akun Expired User Expired" | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
+echo "*========================= WIREGUARD ============================" | tee -a log-install.txt
 echo  "* wgadd         : Generate Akun Wireguard" | tee -a log-install.txt
 echo  "* wgtrial       : Generate Akun Trial wireguard" | tee -a log-install.txt
 echo  "* wghapus       : Menghapus Akun Wireguard" | tee -a log-install.txt
 echo  "* wg show       : Cek User Interface Wireguard" | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
+echo "*============================ PPTP ==============================" | tee -a log-install.txt
+echo  "* pptp          : Menambah User PPTP VPN" | tee -a log-install.txt
+echo  "* addpptp       : Menambah User PPTP VPN" | tee -a log-install.txt
+echo  "* trialpptp     : Menambah User Trial PPTP VPN" | tee -a log-install.txt
+echo  "* delpptp       : Menhapus User PPTP VPN" | tee -a log-install.txt
+echo "*============================ L2TP ==============================" | tee -a log-install.txt
 echo  "* addvpn        : Membuat Akun L2TP/IPSEC" | tee -a log-install.txt
 echo  "* trialvpn      : Generate Akun Trial L2TP/IPSEC" | tee -a log-install.txt
 echo  "* delvpn        : Menghapus Akun L2TP/IPSEC" | tee -a log-install.txt
 echo  "* cekvpn        : Cek User Interface L2TP/IPSEC" | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
+echo "*====================== ShadowSocks SSR =========================" | tee -a log-install.txt
 echo  "* ssr           : Tampilkan Menu Pembuatan SSR" | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
-echo  "* v2ray         : Tampilkan Menu Akun V2RAY" | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
+echo "*===================== Shadowsocks Biasa ========================" | tee -a log-install.txt
+echo  "* ss            : Menginstall Layanan Shadowsocks" | tee -a log-install.txt
+echo  "* ssdel         : Menghapus Akun Shadowsocks" | tee -a log-install.txt
+echo  "* ssadd         : Menambah User Shadowsocks" | tee -a log-install.txt
+echo "*============================ V2RAY =============================" | tee -a log-install.txt
+echo  "* v2ray         : Ketik v2ray Jika Ga Bisa / untuk install v2ray" | tee -a log-install.txt
+echo  "* addv2ray      : Untuk Membuat User V2RAY " | tee -a log-install.txt
+echo  "* delv2ray      : Untuk Menghapus User V2RAY" | tee -a log-install.txt
+echo "*========================= Admin Option =========================" | tee -a log-install.txt
 echo  "* ram           : Melihat Penggunaan Ram VPS" | tee -a log-install.txt
 echo  "* speedtest     : Speedtest VPS" | tee -a log-install.txt
 echo  "* info          : Menampilkan Spek Dan Info System" | tee -a log-install.txt
 echo  "* about         : Informasi Script Auto Install" | tee -a log-install.txt
 echo  "* vnstat        : Menampilkan Penggunaan Jaringan VPS" | tee -a log-install.txt
-echo "*========================= WILDY VPN ============================" | tee -a log-install.txt
+echo "*======================== Opsi Lanjutan =========================" | tee -a log-install.txt
 echo  "* exit          : Keluar Dari VPS Server" | tee -a log-install.txt
 echo  "* reboot        : Mereboot Seluruh VPS" | tee -a log-install.txt
 echo  "* restart        : Merestart Port Dan Sertice" | tee -a log-install.txt
