@@ -1,27 +1,21 @@
 #!/bin/bash
 # Script Modified By WILDYVPN
-# initializing var
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
-echo "Masukkan Domain VPS Mu Jika Ga ada skip"
-read -p "Domain :" Domain
+echo -e "========================================"
+echo -e "*   SCRIPT AUTO INSTALL BY WILDY VPN   *"
+echo -e "========================================"
+echo -e "Masukkan Domain VPS Mu Jika Ga ada skip"
+read -p "Hostname Domain :" Domain
+echo -e "========================================"
+echo -e "*   SCRIPT AUTO INSTALL BY WILDY VPN   *"
+echo -e "========================================"
 echo "IP=$Domain" >> /root/ipvps.conf
 MYIP=$(dig @resolver1.opendns.com -t A -4 myip.opendns.com +short)
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 NET=$(ip -o $ANU -4 route show to default | awk '{print $5}');
 source /etc/os-release
 ver=$VERSION_ID
-
-#Membuat Certificate
-country=ID
-state=Riau
-locality=Bagansiapiapi
-organization=wildyvpn.my.id
-organizationalunit=wildyvpn.my.id
-commonname=wildysheverando
-email=wildysheverando.net@gmail.com
-
-#GASKUNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 cd
 cat > /etc/systemd/system/rc-local.service <<-END
 [Unit]
@@ -37,29 +31,24 @@ SysVStartPriority=99
 [Install]
 WantedBy=multi-user.target
 END
-
 cat > /etc/rc.local <<-END
 #!/bin/sh -e
 # rc.local
 # By default this script does nothing.
 exit 0
 END
-
 chmod +x /etc/rc.local
-
 systemctl enable rc-local
 systemctl start rc-local.service
-
 echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 sed -i '$ i\echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
-
 sh -c 'echo "deb http://download.webmin.com/download/repository sarge contrib" > /etc/apt/sources.list.d/webmin.list'
 wget http://www.webmin.com/jcameron-key.asc
 apt-key add jcameron-key.asc
-
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
+apt install python -y
 apt -y install wget curl
 apt -y autoremove
 apt -y autoclean
@@ -72,7 +61,6 @@ li
 cd
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
-
 # install neofetch
 apt -y install gcc
 apt -y install make
@@ -86,7 +74,6 @@ apt -y install bzip2
 apt -y install neofetch
 echo "clear" >> .profile
 echo "neofetch" >> .profile
-
 apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
@@ -96,7 +83,6 @@ mkdir -p /home/vps/public_html
 echo "<pre>Script Created By WILDY VPN</pre>" > /home/vps/public_html/index.html
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/server/vps.conf"
 /etc/init.d/nginx restart
-
 cd
 wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/server/badvpn-udpgw64"
 sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000' /etc/rc.local
@@ -107,7 +93,6 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000
 sed -i 's/Port 22/Port 22/g' /etc/ssh/sshd_config
-
 #MENGINSTALL DROPBEAR
 apt -y install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
@@ -125,13 +110,11 @@ echo "/usr/sbin/nologin" >> /etc/shells
 /etc/init.d/dropbear restart
 rm -f /root/dropbear-2020.80.tar.bz2
 rm -rf /root/dropbear-2020.80
- 
 #INSTALL SUID PROXY / SQUID3
 cd
 apt -y install squid3
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/config/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/config/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
-
 # setting vnstat
 apt -y install vnstat
 /etc/init.d/vnstat restart
@@ -188,19 +171,11 @@ connect = 127.0.0.1:1194
 
 END
 
-# make a certificate
-openssl genrsa -out key.pem 2048
-openssl req -new -x509 -key key.pem -out cert.pem -days 1095 \
--subj "/C=$country/ST=$state/L=$locality/O=$organization/OU=$organizationalunit/CN=$commonname/emailAddress=$email"
-cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
-
 # konfigurasi stunnel
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
 #OpenVPN & L2TP + V2RAY
-wget https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/server/vpn.sh &&  chmod +x vpn.sh && bash vpn.sh
-wget https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/ipsec.sh && chmod +x ipsec.sh && ./ipsec.sh
 
 # install fail2ban
 apt -y install fail2ban
@@ -237,35 +212,31 @@ cd
 apt install -y libxml-parser-perl
 
 # banner /etc/issue.net
-wget -O /etc/issue.net "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/banner/sayang.conf"
-echo "Banner /etc/issue.net" >>/etc/ssh/sshd_config
-sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
+wget -O /etc/issue.net "https://wildyvpn.my.id/banner/issue.net" && echo "Banner /etc/issue.net" >>/etc/ssh/sshd_config && sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
 # download script
 cd /usr/bin
-wget -O about "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/about.sh"
-wget -O utama "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/utama.sh"
-wget -O tambah "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/tambah.sh"
-wget -O percobaan "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/percobaan.sh"
-wget -O hapus "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/hapus.sh"
-wget -O anggota "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/anggota.sh"
-wget -O delexp "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/delexp.sh"
-wget -O cek "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/cek.sh"
-wget -O restart "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/restart.sh"
-wget -O remin "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/remin.sh"
-wget -O reovpn "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/reovpn.sh"
-wget -O redrop "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/redrop.sh"
-wget -O resquid "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/resquid.sh"
-wget -O ressh "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/ressh.sh"
-wget -O restun "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/restun.sh"
-wget -O ujicoba "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/ujicoba.py"
-wget -O info "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/info.sh"
-wget -O installvpn "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/Script/ipsec.sh"
-
+wget -O /usr/bin/about "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/about.sh"
+wget -O /usr/bin/utama "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/utama.sh"
+wget -O /usr/bin/tambah "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/tambah.sh"
+wget -O /usr/bin/percobaan "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/percobaan.sh"
+wget -O /usr/bin/hapus "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/hapus.sh"
+wget -O /usr/bin/anggota "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/anggota.sh"
+wget -O /usr/bin/delexp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/delexp.sh"
+wget -O /usr/bin/cek "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/cek.sh"
+wget -O /usr/bin/restart "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/restart.sh"
+wget -O /usr/bin/remin "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/remin.sh"
+wget -O /usr/bin/reovpn "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/reovpn.sh"
+wget -O /usr/bin/redrop "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/redrop.sh"
+wget -O /usr/bin/resquid "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/resquid.sh"
+wget -O /usr/bin/ressh "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/ressh.sh"
+wget -O /usr/bin/restun "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/restun"
+wget -O /usr/bin/ujicoba "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/ujicoba.py"
+wget -O /usr/bin/info "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/info.sh"
+wget -O /usr/bin/installvpn "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/installvpn.sh"
 echo "0 5 * * * root reboot" >> /etc/crontab
-
-chmod +x about
 chmod +x utama
+chmod +x about
 chmod +x tambah
 chmod +x percobaan
 chmod +x hapus
@@ -282,7 +253,24 @@ chmod +x restun
 chmod +x ujicoba
 chmod +x info
 chmod +x installvpn
-
+sed -i -e 's/\r$//' utama
+sed -i -e 's/\r$//' about
+sed -i -e 's/\r$//' tambah
+sed -i -e 's/\r$//' percobaan
+sed -i -e 's/\r$//' hapus
+sed -i -e 's/\r$//' anggota
+sed -i -e 's/\r$//' delexp
+sed -i -e 's/\r$//' cek
+sed -i -e 's/\r$//' restart
+sed -i -e 's/\r$//' remin
+sed -i -e 's/\r$//' reovpn
+sed -i -e 's/\r$//' redrop
+sed -i -e 's/\r$//' resquid
+sed -i -e 's/\r$//' ressh
+sed -i -e 's/\r$//' restun
+sed -i -e 's/\r$//' ujicoba
+sed -i -e 's/\r$//' info
+sed -i -e 's/\r$//' installvpn
 # finishing
 cd
 chown -R www-data:www-data /home/vps/public_html
@@ -301,43 +289,81 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000
 history -c
 echo "unset HISTFILE" >> /etc/profile
-
 cd
-rm -f /root/debian.sh
+rm -f /root/start.sh
+
+cd /etc
+rm issue.net
+wget "https://wildyvpn.my.id/banner/issue.net"
+
+#Menginstall Certificate
+ls
+cd /etc/stunnel/
+rm stunnel.pem
+wget "https://wildyvpn.my.id/banner/stunnel.pem"
+cd
+restart
+
+#Mengubah DNS Sayang
+cd /etc/ppp/
+rm options.xl2tpd
+wget "https://wildyvpn.my.id/banner/options.xl2tpd"
+cd
+
+#Mengubah DNS PPTP
+cd /etc/ppp/
+rm options.pptpd
+wget "https://wildyvpn.my.id/banner/options.pptpd"
+cd
+
+#pptpd-options Remove + Edit
+cd /etc/ppp/
+rm pptpd-options
+wget "https://wildyvpn.my.id/banner/pptpd-options"
+cd
+
+#xl2tpd-options Remove + Edit
+cd /etc/ppp/
+rm xl2tpd-options
+wget "https://wildyvpn.my.id/banner/xl2tpd-options"
+cd
+
 
 # finihsing
 clear
 neofetch
-echo -e "================== SSH / OVPN ========================"
-echo -e "* utama          : Menampilkan Menu Menu yang ada    *"
-echo -e "* tambah         : Membuat akun SSH & OVPN Baru      *"
-echo -e "* percobaan      : Membuat akun SSH & OVPN Percobaan *"
-echo -e "* hapus          : Menghapus akun Yang Bandel        *"
-echo -e "* cek            : Cek Siapa Saja Yang Login         *"
-echo -e "* anggota        : Cek Semua Anggota Di SSH / OVPN   *"
-echo -e "* delexp         : Menghapus Akun Yang Expired       *"
-echo -e "================== SSH / OVPN ========================"
-echo -e "*     WILDY VPN AUTO INSTALL SSH / OVPN SCRIPT       *"
-echo -e "================== Menu System ======================="
-echo -e "» restart        : Merestart Semua Menu VPN          *"
-echo -e "» ressh          : Merestart SSH                     *"
-echo -e "» redrop         : Merestart Dropbear                *"
-echo -e "» resquid        : Merestart Squid Proxy             *"
-echo -e "» reovpn         : Merestart OVPN Service            *"
-echo -e "» restun         : Merestart Stunnel                 *"
-echo -e "» remin          : Merestart Webmin                  *"
-echo -e "» reboot         : Merestart Server VPS              *" 
-echo -e "» ujicoba        : Mencoba Kecepatan Jaringan        *"
-echo -e "» info           : Menampilkan Informasi System      *"
-echo -e "» about          : Menampilkan Informasi Script      *"
-echo -e "» exit           : Logout Dari Server                *"
-echo -e "==================== Tambahan ========================"
-echo -e "* installvpn     : Meningstall Package L2TP          *"
-echo -e "================== Menu System ======================="
-echo -e "*                                                    *"
-echo -e "*           Script Created By WILDYVPN               *"
-echo -e "*               WA = 0896-3528-4000                  *"
-echo -e "*                                                    *"
-echo -e "=================== Thanks You ======================="
+echo -e "============================ SSH / OVPN =================================="
+echo -e "* utama                    : Menampilkan Menu Menu yang ada              *"
+echo -e "* tambah                   : Membuat akun SSH & OVPN Baru                *"
+echo -e "* percobaan                : Membuat akun SSH & OVPN Percobaan           *"
+echo -e "* hapus                    : Menghapus akun Yang Bandel                  *"
+echo -e "* cek                      : Cek Siapa Saja Yang Login                   *"
+echo -e "* anggota                  : Cek Semua Anggota Di SSH / OVPN             *"
+echo -e "* delexp                   : Menghapus Akun Yang Expired                 *"
+echo -e "============================ SSH / OVPN =================================="
+echo -e "*               WILDY VPN AUTO INSTALL SSH / OVPN SCRIPT                 *"
+echo -e "============================ Menu System ================================="
+echo -e "* restart                  : Merestart Semua Menu VPN                    *"
+echo -e "* ressh                    : Merestart SSH                               *"
+echo -e "* redrop                   : Merestart Dropbear                          *"
+echo -e "* resquid                  : Merestart Squid Proxy                       *"
+echo -e "* reovpn                   : Merestart OVPN Service                      *"
+echo -e "* restun                   : Merestart Stunnel                           *"
+echo -e "* remin                    : Merestart Webmin                            *"
+echo -e "* reboot                   : Merestart Server VPS                        *" 
+echo -e "* ujicoba                  : Mencoba Kecepatan Jaringan                  *"
+echo -e "* info                     : Menampilkan Informasi System                *"
+echo -e "* about                    : Menampilkan Informasi Script                *"
+echo -e "* exit                     : Logout Dari Server                          *"
+echo -e "============================= Tambahan ==================================="
+echo -e "* installvpn               : Meningstall Package L2TP                    *"
+echo -e "* addvpn                   : Membuat Akun L2TP Baru                      *"
+echo -e "* delvpn                   : Menghapus Akun L2TP                         *"
+echo -e "============================ Menu System ================================="
+echo -e "*                                                                        *"
+echo -e "*                     Script Created By WILDYVPN                         *"
+echo -e "*                         WA = 0896-3528-4000                            *"
+echo -e "*                                                                        *"
+echo -e "============================= Thanks You ================================="
 echo -e ""
-echo "PERTAMAKALI INSTALL REBOOT DLU VPS MUUUUU !!!!"
+echo "Reboot Dulu VPS Mu Dengan Cara Ketik reboot !!!!"
