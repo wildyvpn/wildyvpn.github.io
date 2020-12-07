@@ -1,7 +1,11 @@
 #!/bin/bash
 #script created by wildyvpn
 clear
-neofetch
+clear
+clear
+clear
+sleep 0,1
+clear && neofetch
 echo -e "============================ SSH / OVPN =================================="
 echo -e "* menu                     : Menampilkan Daftar Semua Menu               *"
 echo -e "* utama                    : Menampilkan Menu Menu yang ada              *"
