@@ -94,8 +94,7 @@ wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/wildyvpn/w
 
 # install badvpn
 cd
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/wildyvpn/badvpn-udpgw"
-
+wget -O /usr/bin/badvpn-udpgw "https://wildyvpn.my.id/banner/badvpn-udpgw"
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
