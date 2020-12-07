@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script Modified By WILDYVPN
-
+# initializing var
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
 echo -e "========================================"
@@ -17,9 +17,6 @@ MYIP2="s/xxxxxxxxx/$MYIP/g";
 NET=$(ip -o $ANU -4 route show to default | awk '{print $5}');
 source /etc/os-release
 ver=$VERSION_ID
-
-
-#CONFIGURASI RC LOCAL
 cd
 cat > /etc/systemd/system/rc-local.service <<-END
 [Unit]
@@ -35,8 +32,6 @@ SysVStartPriority=99
 [Install]
 WantedBy=multi-user.target
 END
-
-#Config RC LOCAL
 cat > /etc/rc.local <<-END
 #!/bin/sh -e
 # rc.local
@@ -46,15 +41,11 @@ END
 chmod +x /etc/rc.local
 systemctl enable rc-local
 systemctl start rc-local.service
-
-#MEMATIKAN IPV6
 echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 sed -i '$ i\echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 sh -c 'echo "deb http://download.webmin.com/download/repository sarge contrib" > /etc/apt/sources.list.d/webmin.list'
 wget http://www.webmin.com/jcameron-key.asc
 apt-key add jcameron-key.asc
-
-#UPDATE SOURCE
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
@@ -63,6 +54,11 @@ apt -y install wget curl
 apt -y autoremove
 apt -y autoclean
 apt -y clean
+apt -y remove --purge unscd
+mkdir /etc/v2ray
+cd /etc/v2ray
+wget http://wildyvpn.my.id/akun.conf
+li
 cd
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
@@ -81,7 +77,6 @@ apt -y install neofetch
 echo "clear" >> .profile
 echo "neofetch" >> .profile
 
-#Nginstall Nginx
 apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
@@ -92,14 +87,15 @@ echo "<pre>Script Created By WILDY VPN</pre>" > /home/vps/public_html/index.html
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/server/vps.conf"
 /etc/init.d/nginx restart
 
-# install badvpn
 cd
-wget -O /usr/bin/badvpn-udpgw "https://wildyvpn.my.id/banner/badvpn-udpgw"
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/wildyvpn/wildyvpn/main/server/badvpn-udpgw64"
+sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000' /etc/rc.local
+sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000' /etc/rc.local
+sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
-
-#SETTING PORR SSH
+screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000
+screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000
+screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000
 sed -i 's/Port 22/Port 22/g' /etc/ssh/sshd_config
 
 #MENGINSTALL DROPBEAR
@@ -119,10 +115,10 @@ echo "/usr/sbin/nologin" >> /etc/shells
 /etc/init.d/dropbear restart
 rm -f /root/dropbear-2020.80.tar.bz2
 rm -rf /root/dropbear-2020.80
-
+ 
 #INSTALL SUID PROXY / SQUID3
 cd
-apt-get install squid3 -y
+apt -y install squid3
 wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/config/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
@@ -152,29 +148,45 @@ rm -f webmin_1.910_all.deb
 /etc/init.d/webmin restart
 
 # install stunnel
-apt-get update -y
-apt-get install stunnel4 -y
+apt install stunnel4 -y
 cat > /etc/stunnel/stunnel.conf <<-END
+cert = /etc/stunnel/stunnel.pem
+client = no
 socket = a:SO_REUSEADDR=1
 socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
-client = no
 
 [dropbear]
+accept = 443
+connect = 127.0.0.1:109
+
+[dropbear]
+accept = 777
+connect = 127.0.0.1:22
+
+[dropbear]
+accept = 222
+connect = 127.0.0.1:22
+
+[dropbear]
+accept = 990
+connect = 127.0.0.1:109
+
+[openvpn]
 accept = 442
-connect = 127.0.0.1:443
-cert = /etc/stunnel/stunnel.pem
+connect = 127.0.0.1:1194
 
-[dropbear]
-accept = 80
-connect = 127.0.0.1:443
-cert = /etc/stunnel/stunnel.pem
 END
 
 # konfigurasi stunnel
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
+#Menginstall Certificate
+cd /etc/stunnel/
+rm stunnel.pem
+wget "https://wildyvpn.my.id/banner/stunnel.pem"
+cd
 
 # install fail2ban
 apt -y install fail2ban
@@ -202,24 +214,9 @@ echo '...done'
 echo; echo -n 'Creating cron to run script every minute.....(Default setting)'
 /usr/local/ddos/ddos.sh --cron > /dev/null 2>&1
 echo '.....done'
-echo; echo 'Wis Selamat Telah Berhasil install.'
+echo; echo 'Installation has completed.'
 echo 'Config file is at /usr/local/ddos/ddos.conf'
-echo 'Jika terjadi masalah hubungi gua di wa 0896-3528-4000'
-
-#Blockir Torrent
-iptables -A OUTPUT -p tcp --dport 6881:6889 -j DROP
-iptables -A OUTPUT -p udp --dport 1024:65534 -j DROP
-iptables -A FORWARD -m string --string "get_peers" --algo bm -j DROP
-iptables -A FORWARD -m string --string "announce_peer" --algo bm -j DROP
-iptables -A FORWARD -m string --string "find_node" --algo bm -j DROP
-iptables -A FORWARD -m string --algo bm --string "BitTorrent" -j DROP
-iptables -A FORWARD -m string --algo bm --string "BitTorrent protocol" -j DROP
-iptables -A FORWARD -m string --algo bm --string "peer_id=" -j DROP
-iptables -A FORWARD -m string --algo bm --string ".torrent" -j DROP
-iptables -A FORWARD -m string --algo bm --string "announce.php?passkey=" -j DROP
-iptables -A FORWARD -m string --algo bm --string "torrent" -j DROP
-iptables -A FORWARD -m string --algo bm --string "announce" -j DROP
-iptables -A FORWARD -m string --algo bm --string "info_hash" -j DROP
+echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
 
 # xml parser
 cd
@@ -227,14 +224,6 @@ apt install -y libxml-parser-perl
 
 # banner /etc/issue.net
 wget -O /etc/issue.net "https://wildyvpn.my.id/banner/issue.net" && echo "Banner /etc/issue.net" >>/etc/ssh/sshd_config && sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
-
-#Menginstall Certificate
-cd
-rm /etc/stunnel/stunnel.pem
-mkdir /etc/stunnel/
-cd /etc/stunnel/
-wget https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/stunnel.pem
-cd
 
 # download script
 cd /usr/bin
@@ -260,9 +249,6 @@ wget -O /usr/bin/installvpn "https://script.vpnstores.net/ipsec.sh"
 wget -O /usr/bin/addpptp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/addpptp.sh"
 wget -O /usr/bin/delpptp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/delpptp.sh"
 wget -O /usr/bin/update "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/update.sh"
-
-
-#Sabar Mengchmod / Mengijinkan akses
 echo "0 5 * * * root reboot" >> /etc/crontab
 chmod +x utama
 chmod +x menu
@@ -288,8 +274,7 @@ chmod +x installvpn
 chmod +x addpptp
 chmod +x delpptp
 chmod +x update
-
-#Menganalisa Sayang Ku
+#FICED
 sed -i -e 's/\r$//' utama
 sed -i -e 's/\r$//' menu
 sed -i -e 's/\r$//' about
@@ -315,6 +300,9 @@ sed -i -e 's/\r$//' addpptp
 sed -i -e 's/\r$//' delpptp
 sed -i -e 's/\r$//' update
 
+cd /etc
+rm issue.net
+wget "https://wildyvpn.my.id/banner/issue.net"
 
 # finishing
 cd
@@ -329,19 +317,18 @@ chown -R www-data:www-data /home/vps/public_html
 /etc/init.d/stunnel4 restart
 /etc/init.d/vnstat restart
 /etc/init.d/squid restart
-
-
+screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000
+screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000
+screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000
 history -c
 echo "unset HISTFILE" >> /etc/profile
 cd
+rm -f /root/start.sh
 
-#HAPUS WOYYYY
-rm -f /root/setup.sh
-
-restart
 # finihsing
 clear
 neofetch
+vnstat
 echo -e "============================ SSH / OVPN =================================="
 echo -e "* utama                    : Menampilkan Menu Menu yang ada              *"
 echo -e "* tambah                   : Membuat akun SSH & OVPN Baru                *"
@@ -375,6 +362,5 @@ echo -e "*                     Script Created By WILDYVPN                       
 echo -e "*                         WA = 0896-3528-4000                            *"
 echo -e "*                                                                        *"
 echo -e "============================= Thanks You ================================="
-vnstat
 echo -e ""
 echo "Reboot Dulu VPS Mu Dengan Cara Ketik reboot !!!!"
