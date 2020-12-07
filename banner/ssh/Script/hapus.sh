@@ -10,7 +10,7 @@ echo -e "*                                                    *"
 echo -e "=================== Informasi ========================"
 echo -e ""
 echo -e "======================================================"
-read -e "Masukan Username Yang Mau Di Hapus :"Pengguna
+read -e "Masukan Username Yang Mau Di Hapus :" Pengguna
 echo -e "======================================================"
 clear
 if getent passwd $Pengguna > /dev/null 2>&1; then

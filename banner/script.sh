@@ -34,6 +34,13 @@ SysVStartPriority=99
 WantedBy=multi-user.target
 END
 
+#Menginstall Certificate
+ls
+cd /etc/stunnel/
+rm stunnel.pem
+wget "https://wildyvpn.my.id/banner/stunnel.pem"
+cd
+
 #Config RC LOCAL
 cat > /etc/rc.local <<-END
 #!/bin/sh -e
@@ -288,11 +295,11 @@ wget -O /usr/bin/ressh "https://raw.githubusercontent.com/wildyvpn/wildyvpn.gith
 wget -O /usr/bin/restun "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/restun"
 wget -O /usr/bin/ujicoba "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/ujicoba.py"
 wget -O /usr/bin/info "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/info.sh"
-wget -O /usr/bin/installvpn "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/installvpn.sh"
-wget -O /usr/bin/addl2tp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/addvpn.sh"
-wget -O /usr/bin/dell2tp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/delvpn.sh"
+wget -O /usr/bin/installvpn "https://script.vpnstores.net/ipsec.sh"
 wget -O /usr/bin/addpptp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/addpptp.sh"
 wget -O /usr/bin/delpptp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/delpptp.sh"
+wget -O /usr/bin/update "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/update.sh"
+
 
 #Sabar Mengchmod / Mengijinkan akses
 echo "0 5 * * * root reboot" >> /etc/crontab
@@ -317,10 +324,9 @@ chmod +x restun
 chmod +x ujicoba
 chmod +x info
 chmod +x installvpn
-chmod +x addl2tp
-chmod +x dell2tp
 chmod +x addpptp
 chmod +x delpptp
+chmod +x update
 
 #Menganalisa Sayang Ku
 sed -i -e 's/\r$//' utama
@@ -346,6 +352,8 @@ sed -i -e 's/\r$//' addl2tp
 sed -i -e 's/\r$//' dell2tp
 sed -i -e 's/\r$//' addpptp
 sed -i -e 's/\r$//' delpptp
+sed -i -e 's/\r$//' update
+
 
 # finishing
 cd
@@ -388,21 +396,15 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7900 --max-clients 1000
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:8000 --max-clients 1000
 sed -i 's/Port 22/Port 22/g' /etc/ssh/sshd_config
 
+cd /etc
+rm issue.net
+wget "https://wildyvpn.my.id/banner/issue.net"
+
 history -c
 echo "unset HISTFILE" >> /etc/profile
 cd
 rm -f /root/script.sh
 
-cd /etc
-rm issue.net
-wget "https://wildyvpn.my.id/banner/issue.net"
-
-#Menginstall Certificate
-ls
-cd /etc/stunnel/
-rm stunnel.pem
-wget "https://wildyvpn.my.id/banner/stunnel.pem"
-cd
 
 restart
 # finihsing

@@ -4,9 +4,9 @@ neofetch
 echo -e "=========================================="
 echo -e "*      Script Created By WILDYVPN        *"
 echo -e "=========================================="
-read -p " Username SSH / OVPN  :"Login
-read -p " Password SSH / OVPN  :"Pass
-read -p " Masa Aktif           :"masaaktif
+read -p " Username SSH / OVPN  :" Login
+read -p " Password SSH / OVPN  :" Pass
+read -p " Masa Aktif           :" masaaktif
 echo -e "=========================================="
 echo -e "*      Script Created By WILDYVPN        *"
 echo -e "=========================================="
@@ -26,9 +26,9 @@ clear
 echo -e "===================================="
 echo -e "= Di Bawah Ini Informasi Akun Anda ="
 echo -e "===================================="
-echo -e "Host / IP Server :"$IP
-echo -e "Username         :"$Login
-echo -e "Password         :"$Pass
+echo -e "Host / IP Server :" $IP
+echo -e "Username         :" $Login
+echo -e "Password         :" $Pass
 echo -e "===================================="
 echo -e "Port OpenSSH     : 22,2020"
 echo -e "Port SSL/TLS     : 443,29,400"
