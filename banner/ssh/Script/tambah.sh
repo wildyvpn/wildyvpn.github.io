@@ -23,20 +23,20 @@ echo -e "========================================"
 echo -e ""
 sleep 2
 clear
-echo -e "===================================="
-echo -e "= Di Bawah Ini Informasi Akun Anda ="
-echo -e "===================================="
-echo -e "Host / IP Server :" $IP
-echo -e "Username         :" $Login
-echo -e "Password         :" $Pass
-echo -e "===================================="
-echo -e "Port OpenSSH     : 22,2020"
-echo -e "Port SSL/TLS     : 443,29,400"
-echo -e "Port Dropbear    : 123,456,789,443"
-echo -e "Port Squid       : 8080,3128"
-echo -e "Badvpn           : 7000-8000"
-echo -e "===================================="
-echo -e "=   Masa Aktif Akun Anda : $exp    ="
-echo -e "===================================="
-echo -e "         Script By WILDY VPN "
-echo -e "===================================="
+echo -e "============================="
+echo -e "     Informasi Akun Anda     "
+echo -e "============================="
+echo -e "Host.          =" $IP
+echo -e "Username.      =" $Login
+echo -e "Password.      =" $Pass
+echo -e "============================="
+echo -e "Port OpenSSH.  = 22"
+echo -e "Port SSL/TLS.  = 443"
+echo -e "Port Dropbear. = 80,442"
+echo -e "Port Squid.    = 8080,3128"
+echo -e "Badvpn.        = 7300"
+echo -e "============================"
+echo -e "Masa Aktif.    =" $exp
+echo -e "============================"
+echo -e "=   Script By WILDY VPN    ="
+echo -e "============================"
