@@ -6,7 +6,7 @@ clear
 clear
 sleep 0,1
 clear && neofetch
-echo -e "Script By WildySheverando / WildyVPN
+echo -e "Script By WildySheverando / WildyVPN"
 echo -e ""
 echo -e "============================ SSH / OVPN =================================="
 echo -e "* menu                     : Menampilkan Daftar Semua Menu               *"
@@ -24,7 +24,7 @@ echo -e "* hapuswg                  : Menghapus Akun Wireguard                  
 echo -e "* tambahssr                : Menambah Akun Sodosok SSR                   *"
 echo -e "* hapusssr                 : Menghapus Akun Sodosok SSR                  *"
 echo -e "============================== SPECIAL ==================================="
-echo -e "*               WILDY VPN AUTO INSTALL SSH / OVPN SCRIPT                 *"
+echo -e "*             WILDY VPN AUTO INSTALL VPN SYSTEM SCRIPT                   *"
 echo -e "============================ Menu System ================================="
 echo -e "* vnstat                   : Melihat Pemakian Bandwidth Pada Pipies      *"
 echo -e "* restart                  : Merestart Semua Menu VPN                    *"
