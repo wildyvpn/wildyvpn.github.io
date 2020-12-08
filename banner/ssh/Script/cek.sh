@@ -8,9 +8,9 @@ echo -e "*               WA = 0896-3528-4000                  *"
 echo -e "*                                                    *"
 echo -e "=================== Informasi ========================"
 echo -e ""
-echo -e "================ Dropbear =================";
-echo -e "*Di Bawah Adalah Akun User Yang Lagi Login*";
-echo -e "================ Dropbear =================";
+echo -e "    ================ Dropbear =================";
+echo -e "    *Di Bawah Adalah Akun User Yang Lagi Login*";
+echo -e "    ================ Dropbear =================";
 
 for PID in "${data[@]}"
 do
@@ -27,9 +27,9 @@ echo "";
 
 data=( `ps aux | grep "\[priv\]" | sort -k 72 | awk '{print $2}'`);
 
-echo -e "================ Open SSH =================";
-echo -e "*Di Bawah Adalah Akun User Yang Lagi Login*";
-echo -e "================ Open SSH =================";
+echo -e "    ================ Open SSH =================";
+echo -e "    *Di Bawah Adalah Akun User Yang Lagi Login*";
+echo -e "    ================ Open SSH =================";
 for PID in "${data[@]}"
 do
         #echo "check $PID";
@@ -42,12 +42,14 @@ do
         fi
 done
 
-echo "";
-echo -e "=================== Informasi ========================"
-echo -e "*                                                    *"
-echo -e "*           Script Created By WILDYVPN               *"
-echo -e "*               WA = 0896-3528-4000                  *"
-echo -e "*                                                    *"
-echo -e "=================== Informasi ========================"
+echo -e "    ================== L2TP ===================";
+echo -e "    *Di Bawah Adalah Akun User Yang Lagi Login*";
+echo -e "    ================== L2TP ===================";
+echo -e ""
+echo -e ""
+
+echo -e "    ================== PPTP ===================";
+echo -e "    *Di Bawah Adalah Akun User Yang Lagi Login*";
+echo -e "    ================== PPTP ===================";
 
 echo "";
