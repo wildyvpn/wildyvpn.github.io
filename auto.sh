@@ -119,9 +119,16 @@ sed -i -e 's/\r$//' update
 
 cd /usr/bin/
 chmod +x tambah
+sed -i -e 's/\r$//' tambah.sh
 sed -i -e 's/\r$//' tambah
 
-la
+#Sabar Sedang Fix Tambah akun
+cd
+ls
+sed -i -e 's/\r$//' tambah
+sed -i -e 's/\r$//' tambah.sh
+
+
 cd
 cd
 #Meningstall Banner
