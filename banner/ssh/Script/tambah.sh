@@ -32,13 +32,13 @@ echo -e "Password       :" $Pass
 echo -e "============================="
 echo -e "---- ISS JADI SAYANG LOH ----"
 echo -e "============================="
-echo -e "OpenSSH Port   :"22
+echo -e "OpenSSH Port   : 22"
 echo -e "Port SSL/TLS   : 443"
 echo -e "Port Dropbear  : 80,442,143"
-echo -e "Port Squid.    = 8080,3128"
-echo -e "Badvpn.        = 7100-7500"
+echo -e "Port Squid     : 8080,3128"
+echo -e "Badvpn         : 7100-7500"
 echo -e "============================"
-echo -e "Masa Aktif.    =" $exp
+echo -e "Masa Aktif     :" $exp
 echo -e "============================"
 echo -e "=   Script By WILDY VPN    ="
 echo -e "============================"
