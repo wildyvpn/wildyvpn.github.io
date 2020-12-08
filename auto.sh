@@ -41,7 +41,7 @@ rm reboot
 cd
 apt install -y libxml-parser-perl
 
-cd /usr/bin
+cd /usr/bin/
 wget -O /usr/bin/about "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/about.sh"
 wget -O /usr/bin/utama "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/utama.sh"
 wget -O /usr/bin/menu "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/utama.sh"
@@ -117,7 +117,13 @@ sed -i -e 's/\r$//' addpptp
 sed -i -e 's/\r$//' delpptp
 sed -i -e 's/\r$//' update
 
+cd /usr/bin/
+chmod +x tambah
+sed -i -e 's/\r$//' tambah
 
+la
+cd
+cd
 #Meningstall Banner
 cd /etc/
 rm issue.net
