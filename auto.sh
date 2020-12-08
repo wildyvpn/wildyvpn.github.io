@@ -1,5 +1,6 @@
 #!/bin/bash
-# Script Remake By WILDY VPN
+# Script Created By Wildy
+# Thanks Too Horass For the v2ray , wg and ssr
 clear
 clear
 clear
@@ -41,6 +42,31 @@ rm reboot
 cd
 apt install -y libxml-parser-perl
 
+cd
+wget https://script.vpnstores.net/ssrmu.sh
+chmod +x ssrmu.sh
+sed -i -e 's/\r$//' ssrmu.sh
+./ssrmu.sh
+cd
+
+cd
+wget https://script.vpnstores.net/wg.sh
+chmod +x wg.sh
+sed -i -e 's/\r$//' wg.sh
+./wg.sh
+cd
+
+cd
+wget https://script.vpnstores.net/v2ray.sh
+chmod +x v2ray.sh 
+sed -i -e 's/\r$//' v2ray.sh
+./v2ray.sh
+cd
+
+
+clear
+neofetch
+
 cd /usr/bin/
 wget -O /usr/bin/about "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/about.sh"
 wget -O /usr/bin/utama "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/utama.sh"
@@ -64,10 +90,18 @@ wget -O /usr/bin/installvpn "https://script.vpnstores.net/ipsec.sh"
 wget -O /usr/bin/addpptp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/addpptp.sh"
 wget -O /usr/bin/delpptp "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/delpptp.sh"
 wget -O /usr/bin/update "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/update.sh"
+wget -O /usr/bin/tambahwg "https://script.vpnstores.net/wgadd.sh"
+wget -O /usr/bin/hapuswg "https://script.vpnstores.net/wgdel.sh"
+wget -O /usr/bin/tambahssr "https://script.vpnstores.net/ssradd.sh"
+wget -O /usr/bin/hapusssr "https://script.vpnstores.net/ssrdel.sh"
 
 echo "0 5 * * * root reboot" >> /etc/crontab
 chmod +x utama
 chmod +x menu
+chmod +x hapusssr
+chmod +x tambahssr
+chmod +x hapuswg
+chmod +x tambahwg
 chmod +x about
 chmod +x tambah
 chmod +x percobaan
@@ -93,6 +127,10 @@ chmod +x update
 
 #Pegnignstall di mulai
 sed -i -e 's/\r$//' utama
+sed -i -e 's/\r$//' tambahssr
+sed -i -e 's/\r$//' hapusssr
+sed -i -e 's/\r$//' hapuswg
+sed -i -e 's/\r$//' tambahwg
 sed -i -e 's/\r$//' menu
 sed -i -e 's/\r$//' about
 sed -i -e 's/\r$//' tambah
@@ -143,6 +181,7 @@ ls
 cd /etc/
 ls
 cd
+
 
 #update dulu ya sayang kuuu
 apt update -y
