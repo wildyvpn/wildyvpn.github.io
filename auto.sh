@@ -127,7 +127,8 @@ cd
 ls
 sed -i -e 's/\r$//' tambah
 sed -i -e 's/\r$//' tambah.sh
-
+ls
+cd
 
 cd
 cd
