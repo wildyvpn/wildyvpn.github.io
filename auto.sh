@@ -25,6 +25,8 @@ sleep 1
 echo -e "Bersabar Script akan di jalankan dalam waktu 1 Detik !!!!!"
 echo -e "gassskannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
 
+apr install bash
+
 #sabar taik
 cd /usr/bin
 rm menu
@@ -59,21 +61,9 @@ cd
 apt install -y libxml-parser-perl
 
 cd
-wget https://script.vpnstores.net/ssrmu.sh
-chmod +x ssrmu.sh
-./ssrmu.sh
-cd
-
-cd
-wget https://script.vpnstores.net/wg.sh
-chmod +x wg.sh
-./wg.sh
-cd
-
-cd
 wget https://script.vpnstores.net/v2ray.sh
 chmod +x v2ray.sh
-./v2ray.sh
+bash v2ray.sh
 cd
 
 #Config Direcktori V2ray
@@ -215,6 +205,17 @@ cd /etc/stunnel/
 rm stunnel.pem
 wget "https://wildyvpn.my.id/banner/stunnel.pem"
 cd
+
+cd
+wget https://script.vpnstores.net/ssrmu.sh
+chmod +x ssrmu.sh
+bash ssrmu.sh
+cd
+
+cd
+wget https://script.vpnstores.net/wg.sh
+chmod +x wg.sh
+bash wg.sh
 
 clear
 neofetch
