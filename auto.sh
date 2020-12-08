@@ -38,34 +38,53 @@ rm trial
 rm hapus
 rm reboot
 
-# xml parser
+#Sabar
+apt -y install vnstat
+/etc/init.d/vnstat restart
+apt -y install libsqlite3-dev
+wget https://humdi.net/vnstat/vnstat-2.6.tar.gz
+tar zxvf vnstat-2.6.tar.gz
+cd vnstat-2.6
+./configure --prefix=/usr --sysconfdir=/etc && make && make install 
+cd
+vnstat -u -i $NET
+chown vnstat:vnstat /var/lib/vnstat -R
+systemctl enable vnstat
+/etc/init.d/vnstat restart
+rm -f /root/vnstat-2.6.tar.gz 
+rm -rf /root/vnstat-2.6 
+
+#xml parser
 cd
 apt install -y libxml-parser-perl
 
 cd
 wget https://script.vpnstores.net/ssrmu.sh
 chmod +x ssrmu.sh
-sed -i -e 's/\r$//' ssrmu.sh
 ./ssrmu.sh
 cd
 
 cd
 wget https://script.vpnstores.net/wg.sh
 chmod +x wg.sh
-sed -i -e 's/\r$//' wg.sh
 ./wg.sh
 cd
 
 cd
 wget https://script.vpnstores.net/v2ray.sh
-chmod +x v2ray.sh 
-sed -i -e 's/\r$//' v2ray.sh
+chmod +x v2ray.sh
 ./v2ray.sh
 cd
 
+#Config Direcktori V2ray
+mkdir /etc/v2ray
+cd /etc/v2ray
+wget http://wildyvpn.my.id/akun.conf
+ls
+cd
 
+#Dah Mau siap
 clear
-neofetch
 
 cd /usr/bin/
 wget -O /usr/bin/about "https://raw.githubusercontent.com/wildyvpn/wildyvpn.github.io/main/banner/ssh/Script/about.sh"
@@ -170,6 +189,7 @@ cd
 
 cd
 cd
+clear
 #Meningstall Banner
 cd /etc/
 rm issue.net
@@ -181,7 +201,7 @@ ls
 cd /etc/
 ls
 cd
-
+clear
 
 #update dulu ya sayang kuuu
 apt update -y
