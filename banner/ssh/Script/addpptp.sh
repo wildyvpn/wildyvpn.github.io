@@ -17,7 +17,7 @@ clear
 echo -e "========================================"
 echo -e "==  Di Bawah Ini Informasi Akun Anda  =="
 echo -e "========================================"
-echo -e "Host / IP Server     :" $IP
+echo -e "Host / IP Server     :" Pakai IP vps
 echo -e "Username             :" $pptpuser 
 echo -e "Password             :" $passpptp
 echo -e "Masa Aktif Akun Anda :" $expptp "Hari"
